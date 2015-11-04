@@ -19,10 +19,11 @@
 #include "static_pattern_database.h"
 #include "combined_pattern_database.h"
 #include "file_pattern_database.h"
+#include "simple_heuristic.h"
 
 namespace heuristics {
     
-    static std::string heuristicTypeString = "The type of heuristic to use. [\"static\", \"static_random\", \"dynamic\", \"dynamic_optimal\", \"combined\", \"file\"]";
+    static std::string heuristicTypeString = "The type of heuristic to use. [\"static\", \"static_random\", \"dynamic\", \"dynamic_optimal\", \"combined\", \"file\", \"simple\"]";
     static std::string heuristicArgumentString = "The argument for creating the heuristic, such as number of pattern databases to use.";
 
     inline Heuristic *createWithAncestors(std::string heuristicType, std::string argument, std::vector<bestscorecalculators::BestScoreCalculator*> &spgs, varset &ancestors, varset &scc) {
@@ -54,6 +55,8 @@ namespace heuristics {
             heuristic = new heuristics::CombinedPatternDatabase(spgs.size(), pdCount, maxSize, staticCount);
         } else if (heuristicType == "file") {
             heuristic = new heuristics::FilePatternDatabase(spgs.size(), argument, ancestors, scc);            
+        } else if (heuristicType == "simple"){
+            heuristic = new heuristics::SimpleHeuristic(spgs.size());
         } else {
             throw std::runtime_error("Invalid heuristic type: '" + heuristicType + "'.  Valid options are 'static', 'static_random', 'dynamic', 'dynamic_optimal', 'combined' and 'file'.");
         }
