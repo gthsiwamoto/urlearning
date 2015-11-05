@@ -48,8 +48,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/score_cache.o \
 	${OBJECTDIR}/log_likelihood_calculator.o \
 	${OBJECTDIR}/tarjans_algorithm.o \
-	${OBJECTDIR}/static_pattern_database.o \
-	${OBJECTDIR}/dynamic_pattern_database.o \
 	${OBJECTDIR}/hugin_structure_writer.o
 
 
@@ -141,16 +139,6 @@ ${OBJECTDIR}/tarjans_algorithm.o: tarjans_algorithm.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -Wall -s -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/tarjans_algorithm.o tarjans_algorithm.cpp
-
-${OBJECTDIR}/static_pattern_database.o: static_pattern_database.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -Wall -s -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/static_pattern_database.o static_pattern_database.cpp
-
-${OBJECTDIR}/dynamic_pattern_database.o: dynamic_pattern_database.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -Wall -s -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/dynamic_pattern_database.o dynamic_pattern_database.cpp
 
 ${OBJECTDIR}/hugin_structure_writer.o: hugin_structure_writer.cpp 
 	${MKDIR} -p ${OBJECTDIR}

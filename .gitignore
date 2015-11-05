@@ -2,4 +2,3 @@ bin/
 build/
 *.swp
 dist/
-*.log

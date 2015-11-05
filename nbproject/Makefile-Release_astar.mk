@@ -48,7 +48,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/tarjans_algorithm.o \
 	${OBJECTDIR}/sparse_parent_list.o \
 	${OBJECTDIR}/a_star_internal_main.o \
-	${OBJECTDIR}/simple_heuristic.o \
 	${OBJECTDIR}/hugin_structure_writer.o
 
 
@@ -140,11 +139,6 @@ ${OBJECTDIR}/a_star_internal_main.o: a_star_internal_main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -Wall -s -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/a_star_internal_main.o a_star_internal_main.cpp
-
-${OBJECTDIR}/simple_heuristic.o: simple_heuristic.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -Wall -s -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/simple_heuristic.o simple_heuristic.cpp
 
 ${OBJECTDIR}/hugin_structure_writer.o: hugin_structure_writer.cpp 
 	${MKDIR} -p ${OBJECTDIR}

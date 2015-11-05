@@ -50,8 +50,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/log_likelihood_calculator.o \
 	${OBJECTDIR}/tarjans_algorithm.o \
 	${OBJECTDIR}/ad_tree_scoring_main.o \
-	${OBJECTDIR}/dynamic_pattern_database.o \
-	${OBJECTDIR}/static_pattern_database.o \
 	${OBJECTDIR}/hugin_structure_writer.o
 
 
@@ -83,16 +81,6 @@ ${OBJECTDIR}/bic_scoring_function.o: bic_scoring_function.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -Wall -s -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/bic_scoring_function.o bic_scoring_function.cpp
-
-${OBJECTDIR}/dynamic_pattern_database.o: dynamic_pattern_database.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -Wall -s -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/dynamic_pattern_database.o dynamic_pattern_database.cpp
-
-${OBJECTDIR}/static_pattern_database.o: static_pattern_database.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -Wall -s -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/static_pattern_database.o static_pattern_database.cpp
 
 ${OBJECTDIR}/top_p_constraint.o: top_p_constraint.cpp 
 	${MKDIR} -p ${OBJECTDIR}

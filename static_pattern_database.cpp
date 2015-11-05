@@ -57,6 +57,10 @@ void heuristics::StaticPatternDatabase::initialize(std::vector<bestscorecalculat
     this->patternDatabaseCount = variableSets.size();
     this->ancestors = ancestors;
     this->scc = scc;
+#ifdef SUZUKI
+    printf("spgs length: %d\n",spgs.size());
+    this->suzuki_spgs = spgs;
+#endif
     
     VARSET_NEW(allVariables, variableCount);
     allVariables = VARSET_OR(allVariables, scc);
@@ -80,6 +84,10 @@ void heuristics::StaticPatternDatabase::initialize(std::vector<bestscorecalculat
 
 void heuristics::StaticPatternDatabase::initialize(std::vector<bestscorecalculators::BestScoreCalculator*> &spgs) {
     
+#ifdef SUZUKI
+    printf("spgs length: %d\n",spgs.size());
+    this->suzuki_spgs = spgs;
+#endif
     // create the variable set bitmasks
     int x = 0;
 
@@ -140,6 +148,26 @@ int heuristics::StaticPatternDatabase::size() {
 }
 
 float heuristics::StaticPatternDatabase::h(const varset &variables, bool &complete) {
+#ifdef SUZUKI
+    
+    float suzuki_h = 0;
+
+    VARSET_NEW(suzuki_mask, variableCount);
+    VARSET_SET_ALL(suzuki_mask, variableCount);
+
+    VARSET_COPY(VARSET_NOT(variables), suzuki_remaining);
+
+    // use the mask to make sure "remaining" only has valid variables left
+    suzuki_remaining = VARSET_AND(suzuki_remaining, suzuki_mask);
+    for (int i = 0; i < variableCount; i++) {
+        if (VARSET_GET(suzuki_remaining, i)) {
+            printf("%d, ", i);
+            suzuki_h += suzuki_spgs[i]->getScore(suzuki_mask);
+        }
+    }
+    printf("\nsuzuki heuristic:%f\n",suzuki_h);
+
+#endif
     float h = 0;
 
     VARSET_NEW(mask, variableCount);
@@ -170,7 +198,7 @@ float heuristics::StaticPatternDatabase::h(const varset &variables, bool &comple
 void heuristics::StaticPatternDatabase::createPatternDatabase(const varset &allVariables, const varset &variableSet, const int variableSetSize, std::vector<bestscorecalculators::BestScoreCalculator*> &spgs, FloatMap &patternDatabase) {
     FloatMap previousLayer;
     init_map(previousLayer);
-;
+
     previousLayer[allVariables] = 0;
 
     // create the pattern database by performing a reverse bfs

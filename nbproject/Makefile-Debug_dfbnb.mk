@@ -44,8 +44,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/score_cache.o \
 	${OBJECTDIR}/tarjans_algorithm.o \
 	${OBJECTDIR}/sparse_parent_list.o \
-	${OBJECTDIR}/dynamic_pattern_database.o \
-	${OBJECTDIR}/static_pattern_database.o \
 	${OBJECTDIR}/hugin_structure_writer.o
 
 
@@ -82,16 +80,6 @@ ${OBJECTDIR}/sparse_parent_bitwise.o: sparse_parent_bitwise.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -DDEBUG -I/home/bmmalone/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/sparse_parent_bitwise.o sparse_parent_bitwise.cpp
-
-${OBJECTDIR}/dynamic_pattern_database.o: dynamic_pattern_database.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -Wall -s -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/dynamic_pattern_database.o dynamic_pattern_database.cpp
-
-${OBJECTDIR}/static_pattern_database.o: static_pattern_database.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O3 -Wall -s -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/static_pattern_database.o static_pattern_database.cpp
 
 ${OBJECTDIR}/bayesian_network.o: bayesian_network.cpp 
 	${MKDIR} -p ${OBJECTDIR}
