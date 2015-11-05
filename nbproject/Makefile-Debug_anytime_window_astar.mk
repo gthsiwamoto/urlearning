@@ -43,6 +43,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/static_pattern_database.o \
 	${OBJECTDIR}/combined_pattern_database.o \
 	${OBJECTDIR}/dynamic_pattern_database.o \
+	${OBJECTDIR}/simple_heuristic.o \
 	${OBJECTDIR}/sparse_parent_tree.o \
 	${OBJECTDIR}/file_pattern_database.o \
 	${OBJECTDIR}/score_cache.o \
@@ -114,6 +115,11 @@ ${OBJECTDIR}/dynamic_pattern_database.o: dynamic_pattern_database.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -DDEBUG -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/dynamic_pattern_database.o dynamic_pattern_database.cpp
+
+${OBJECTDIR}/simple_heuristic.o: simple_heuristic.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/simple_heuristic.o simple_heuristic.cpp
 
 ${OBJECTDIR}/sparse_parent_tree.o: sparse_parent_tree.cpp 
 	${MKDIR} -p ${OBJECTDIR}
