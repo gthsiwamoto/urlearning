@@ -4,3 +4,4 @@ build/
 dist/
 *.log
 data/
+log/
