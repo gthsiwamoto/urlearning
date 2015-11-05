@@ -42,6 +42,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/bayesian_network.o \
 	${OBJECTDIR}/sparse_parent_tests_main.o \
 	${OBJECTDIR}/static_pattern_database.o \
+	${OBJECTDIR}/dynamic_pattern_database.o \
+	${OBJECTDIR}/ad_tree.o \
 	${OBJECTDIR}/sparse_parent_tree.o \
 	${OBJECTDIR}/markov_network_bdeu_scoring_function.o \
 	${OBJECTDIR}/file_pattern_database.o \
@@ -109,6 +111,16 @@ ${OBJECTDIR}/static_pattern_database.o: static_pattern_database.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O3 -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/static_pattern_database.o static_pattern_database.cpp
+
+${OBJECTDIR}/dynamic_pattern_database.o: dynamic_pattern_database.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/dynamic_pattern_database.o dynamic_pattern_database.cpp
+
+${OBJECTDIR}/ad_tree.o: ad_tree.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O3 -I${HOME}/local/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/ad_tree.o ad_tree.cpp
 
 ${OBJECTDIR}/sparse_parent_tree.o: sparse_parent_tree.cpp 
 	${MKDIR} -p ${OBJECTDIR}

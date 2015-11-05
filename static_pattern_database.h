@@ -35,9 +35,6 @@ public:
 private:
     int variableCount;
     bool isRandom;
-#ifdef SUZUKI
-    std::vector<bestscorecalculators::BestScoreCalculator*> suzuki_spgs;
-#endif
     
     varset ancestors;
     varset scc;

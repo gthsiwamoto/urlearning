@@ -38,8 +38,8 @@ ln -s $PWD/dist/Debug_anytime_window_astar/GNU-Linux-x86/anytime_window_astar-de
 ln -s $PWD/dist/Debug_sparse_parent_tests/GNU-Linux-x86/sparse_parent_tests-debug $HOME/local/bin/sparse_parent_tests-debug
 
 
-"/usr/bin/make" -f nbproject/Makefile-Diagnostic_bfbnb_pd_statistics.mk QMAKE= SUBPROJECTS= .build-conf
-ln -s $PWD/dist/Diagnostic_bfbnb_pd_statistics/GNU-Linux-x86/bfbnb-pd-statistics $HOME/local/bin/bfbnb-pd-statistics
+#"/usr/bin/make" -f nbproject/Makefile-Diagnostic_bfbnb_pd_statistics.mk QMAKE= SUBPROJECTS= .build-conf
+#ln -s $PWD/dist/Diagnostic_bfbnb_pd_statistics/GNU-Linux-x86/bfbnb-pd-statistics $HOME/local/bin/bfbnb-pd-statistics
 
 "/usr/bin/make" -f nbproject/Makefile-Debug_markov_network_score.mk QMAKE= SUBPROJECTS= .build-conf
 ln -s $PWD/dist/Debug_markov_network_score/GNU-Linux-x86/markov_network_score-debug $HOME/local/bin/markov_network_score-debug
