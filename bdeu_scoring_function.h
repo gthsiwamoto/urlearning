@@ -82,6 +82,10 @@ namespace scoring {
          * The scratch space for score calculations of each variable.
          */
         std::vector<scratch*> scratchSpace;
+
+        // bound
+        float old_bound;
+        float new_bound;
     };
 
 }

@@ -23,6 +23,7 @@ scoring::ScoreCalculator::ScoreCalculator(scoring::ScoringFunction *scoringFunct
     this->variableCount = variableCount;
     this->runningTime = runningTime;
     this->constraints = constraints;
+    this->globalPruned = 0;
 }
 
 void scoring::ScoreCalculator::timeout(const boost::system::error_code& /*e*/) {
@@ -89,6 +90,7 @@ void scoring::ScoreCalculator::calculateScores_internal(int variable, FloatMap &
                     cache[variables] = score;
                 } else {
                     prunedCount++;
+                    this->globalPruned++;
                 }
             }
 
@@ -98,6 +100,7 @@ void scoring::ScoreCalculator::calculateScores_internal(int variable, FloatMap &
         
         if (!outOfTime) highestCompletedLayer = layer;
     }
+    printf("prunedCount: %d\n", this->globalPruned);
     
 //    io.stop();
     t->cancel();
@@ -167,6 +170,7 @@ void scoring::ScoreCalculator::prune(FloatMap &cache) {
             if (VARSET_IS_SUBSET_OF(pi, pj)) {
                 // then we can prune pj
                 prunedSets.set(j);
+                //メモリリーク
                 cache.erase(pj);
             }
         }

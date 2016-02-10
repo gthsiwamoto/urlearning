@@ -56,7 +56,5 @@ namespace datastructures {
     };
 
 }
-
-
 #endif	/* BAYESIAN_NETWORK_H */
 

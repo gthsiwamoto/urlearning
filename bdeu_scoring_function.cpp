@@ -1,7 +1,11 @@
 #include "bdeu_scoring_function.h"
 #include "contingency_table_node.h"
-
+#include <vector>
 #include <math.h>
+
+using namespace std;
+
+boost::unordered_map<uint64_t, vector<int>> chCounts;
 
 scoring::BDeuScoringFunction::BDeuScoringFunction(float ess, datastructures::BayesianNetwork& network, ADTree *adTree, Constraints *constraints) {
     this->network = network;
@@ -73,45 +77,63 @@ float scoring::BDeuScoringFunction::calculateScore(int variable, varset parents,
     ContingencyTableNode *ct = adTree->makeContab(variables);
 
     boost::unordered_map<uint64_t, int> paCounts;
+
+    this->old_bound = 0;
+    this->new_bound = 0;
+
     calculate(ct, 1, 0, paCounts, variables, -1, s);
 
-    // check constraints (Theorem 9 from de Campos and Ji '11)
-    // only bother if the alpha bound is okay
-    // check if can prune
-    if (s->a_ij <= 0.8349) {
-
-        float bound = (float) (-1.0 * ct->leafCount * s->l_r_i);
-
-        // check each subset
-        for (int x = 0; x < network.size(); x++) {
-            if (VARSET_GET(parents, x)) {
-                VARSET_CLEAR(parents, x);
-
-                // check the constraints
-                if (s->invalidParents.find(parents) != s->invalidParents.end()) {
-                    // we cannot say anything if we skipped this because of constraints
-                    VARSET_SET(parents, x);
-                    continue;
-                }
-
-                float s = cache[parents];
-
-                // if the score is larger (better) than the bound, then we can prune
-                if (s > bound) {
-                    return 0;
-                }
-
-                VARSET_SET(parents, x);
+    for (auto pc : paCounts) {
+        if(pc.second > 0){
+            this->old_bound -= s->l_r_i;
+            //for(int i = 0; i < chCounts[pc.first].size(); i++){
+            for(int i = 0; i < pc.second; i++){
+                this->new_bound += log(i + s->a_ijk) - log(i + s->a_ij);
             }
         }
-    }
-
-    delete ct;
-
-    for (auto pc : paCounts) {
+        chCounts[pc.first].clear();
         s->score += s->lg_ij;
         s->score -= lgamma(s->a_ij + pc.second);
     }
+
+
+    // only bother if the alpha bound is okay
+    // check if can prune
+
+    //float bound = (float) (-1.0 * ct->leafCount * s->l_r_i);
+    //printf("leaf:%d\n", ct->leafCount);
+
+    // check each subset
+    float max = 0;
+    for (int x = 0; x < network.size(); x++) {
+        if (VARSET_GET(parents, x)) {
+            VARSET_CLEAR(parents, x);
+
+            // check the constraints
+            if (s->invalidParents.find(parents) != s->invalidParents.end()) {
+                // we cannot say anything if we skipped this because of constraints
+                VARSET_SET(parents, x);
+                continue;
+            }
+
+            float tmp = cache[parents];
+            if((tmp > max && tmp < 0) || max == 0)
+                max = tmp;
+
+            // if the score is larger (better) than the bound, then we can prune
+
+            if (tmp > this->old_bound) {
+                return 0;
+            }
+
+            if (tmp > this->new_bound) {
+                return 0;
+            }
+
+            VARSET_SET(parents, x);
+        }
+    }
+    delete ct;
 
     return s->score;
 }
@@ -123,6 +145,8 @@ void scoring::BDeuScoringFunction::calculate(ContingencyTableNode* ct, uint64_t 
         // update the instantiation count of this set of parents
         int count = paCounts[index];
         count += ct->getValue();
+
+        chCounts[index].push_back(ct->getValue());
 
         if (count > 0) {
             paCounts[index] = count;

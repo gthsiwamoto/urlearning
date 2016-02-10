@@ -162,7 +162,7 @@ void scoringThread(int thread) {
         fprintf(varOut, "\n");
         fclose(varOut);
 
-        sc.clear();
+        //sc.clear();
     }
 }
 
@@ -256,7 +256,7 @@ int main(int argc, char** argv) {
 
     scoring::Constraints *constraints = NULL;
     if (constraintsFile.length() > 0) {
-        constraints = scoring::parseConstraints(constraintsFile, network);
+        //constraints = scoring::parseConstraints(constraintsFile, network);
     }
 
     scoringFunction = NULL;

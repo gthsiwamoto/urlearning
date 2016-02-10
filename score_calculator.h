@@ -13,7 +13,6 @@
 
 #include <boost/asio.hpp>
 
-
 namespace scoring {
     
     class Constraints;
@@ -36,6 +35,7 @@ namespace scoring {
         void timeout(const boost::system::error_code& /*e*/);
         
         int highestCompletedLayer;
+        int globalPruned = 0;
         
         /**
          * A timer to keep track of how long the algorithm has been running.
