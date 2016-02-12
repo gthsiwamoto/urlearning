@@ -80,13 +80,21 @@ float scoring::BDeuScoringFunction::calculateScore(int variable, varset parents,
 
     this->old_bound = 0;
     this->new_bound = 0;
+    this->new_bound_a = 0;
 
     calculate(ct, 1, 0, paCounts, variables, -1, s);
 
     for (auto pc : paCounts) {
         if(pc.second > 0){
             this->old_bound -= s->l_r_i;
-            //for(int i = 0; i < chCounts[pc.first].size(); i++){
+            for(int i = 0; i < chCounts[pc.first].size(); i++){
+                if(chCounts[pc.first][i] > 0){
+                    this->new_bound_a += lgamma(chCounts[pc.first][i] + s->a_ijk);
+                    this->new_bound_a -= lgamma(chCounts[pc.first][i] + s->a_ij);
+                    this->new_bound_a += lgamma(s->a_ij);
+                    this->new_bound_a -= lgamma(s->a_ijk);
+                }
+            }
             for(int i = 0; i < pc.second; i++){
                 this->new_bound += log(i + s->a_ijk) - log(i + s->a_ij);
             }
@@ -121,12 +129,17 @@ float scoring::BDeuScoringFunction::calculateScore(int variable, varset parents,
                 max = tmp;
 
             // if the score is larger (better) than the bound, then we can prune
+            //printf("old %f, new %f, newnew %f\n", this->old_bound, this->new_bound, this->new_bound_a);
 
             if (tmp > this->old_bound) {
                 return 0;
             }
 
             if (tmp > this->new_bound) {
+                return 0;
+            }
+
+            if (tmp > this->new_bound_a) {
                 return 0;
             }
 

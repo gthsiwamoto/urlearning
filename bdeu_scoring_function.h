@@ -86,6 +86,7 @@ namespace scoring {
         // bound
         float old_bound;
         float new_bound;
+        float new_bound_a;
     };
 
 }
